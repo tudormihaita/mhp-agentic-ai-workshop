@@ -1,0 +1,6 @@
+google-adk>=1.25
+litellm>=1.75
+python-dotenv>=1.0
+
+# Installs this repo's shared helper package (common) in editable mode.
+-e .
