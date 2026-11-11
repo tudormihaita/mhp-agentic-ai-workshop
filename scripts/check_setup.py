@@ -64,7 +64,7 @@ async def ask_model(model) -> str:
     reply = ""
     async for event in runner.run_async(user_id="student", session_id=session.id, new_message=message):
         if event.is_final_response() and event.content and event.content.parts:
-            reply = "".join(p.text or "" for p in event.content.parts)
+            reply = "".join(p.text or "" for p in event.content.parts if not p.thought)  # skip reasoning
     return reply.strip()
 
 
@@ -75,6 +75,10 @@ HINTS = [
     ("API key not valid", "Your GOOGLE_API_KEY is wrong - copy it again from AI Studio."),
     ("RESOURCE_EXHAUSTED", "Gemini free-tier rate limit - wait a minute and retry."),
     ("Throttling", "Too many requests right now - wait a few seconds and retry."),
+    ("Too Many Requests", "Too many requests right now - wait a few seconds and retry."),
+    ("402", "Your credit is used up - check the Billing page (docs/setup-deepseek.md)."),
+    ("balance", "Your credit is used up - check the Billing page (docs/setup-deepseek.md)."),
+    ("Authentication Fails", "Your DEEPSEEK_API_KEY is wrong, or DEEPSEEK_API_BASE doesn't match where the key is from."),
     ("403", "Access denied - your key may be wrong or expired. Ask the instructor."),
     ("401", "Authentication failed - check the key in your .env file."),
 ]
@@ -115,7 +119,7 @@ def check_model(provider: str | None) -> bool:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--provider", choices=["bedrock", "ollama", "gemini"], help="override MODEL_PROVIDER")
+    parser.add_argument("--provider", choices=["deepseek", "bedrock", "ollama", "gemini"], help="override MODEL_PROVIDER")
     args = parser.parse_args()
 
     print("Agentic AI workshop - setup check\n")
