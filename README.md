@@ -2,13 +2,13 @@
 
 Hands-on exercises for building LLM-based agents with Google's
 [Agent Development Kit (ADK)](https://adk.dev). Each exercise introduces one concept:
-chat agents, tools and the agent loop, multi-agent delegation, workflows and MCP.
+chat agents, tools and the agent loop, MCP, multi-agent delegation and workflows.
 
 Every exercise works with any of three model providers. You choose one in a single `.env` file:
 
 | Provider | What it is | What you need |
 |---|---|---|
-| **Amazon Bedrock** *(default)* | Cloud models (Amazon Nova, Claude, Llama, …) | The personal API key from your instructor |
+| **Amazon Bedrock** *(default)* | Cloud models, by default Claude Sonnet 5.5 | The personal API key from your instructor |
 | **Ollama** *(optional)* | Open models running on your own laptop | Ollama installed + a model downloaded: [guide](docs/setup-ollama.md) |
 | **Google Gemini** *(optional)* | Google's cloud models | A free Gemini API key: [guide](docs/setup-gemini.md) |
 
@@ -86,9 +86,10 @@ provider (`BEDROCK_MODEL`, `OLLAMA_MODEL`, `GEMINI_MODEL`), then restart. No cod
 |---|---|---|
 | 1 | [`ex01_chat`](exercises/ex01_chat/README.md) | Chat agent: the LLM is a replaceable part |
 | 2 | [`ex02_tools`](exercises/ex02_tools/README.md) | Tools and the agent loop |
-| 3 | [`ex03_delegation`](exercises/ex03_delegation/README.md) | Delegation: a coordinator and specialists |
-| 4 | [`ex04_workflows`](exercises/ex04_workflows/README.md) | Workflows: sequential and parallel |
-| 5 | [`ex05_mcp`](exercises/ex05_mcp/README.md) | MCP: tools from a server |
+| 3 | [`ex03_mcp`](exercises/ex03_mcp/README.md) | MCP: our own server + live public servers |
+| 4 | [`ex04_delegation`](exercises/ex04_delegation/README.md) | Delegation: a coordinator and specialists |
+| 5 | [`ex05_workflows`](exercises/ex05_workflows/README.md) | Workflows (classic): sequential, parallel, loop |
+| 6 | [`ex06_graph_workflows`](exercises/ex06_graph_workflows/README.md) | Workflows (graph): nodes, edges, routes |
 
 Each exercise folder has a `README.md` with the steps, and an `agent.py` with `TODO`s.
 Reference solutions are in [`solutions/`](solutions). Try first, peek later.
@@ -118,9 +119,10 @@ mhp-agentic-ai-workshop/
 │   │   ├── agent.py        ← defines `root_agent` (ADK looks for this name), has the TODOs
 │   │   └── README.md       ← concept, steps, example
 │   ├── ex02_tools/
-│   ├── ex03_delegation/
-│   ├── ex04_workflows/
-│   └── ex05_mcp/
+│   ├── ex03_mcp/
+│   ├── ex04_delegation/
+│   ├── ex05_workflows/
+│   └── ex06_graph_workflows/
 └── solutions/              ← same structure, completed code
 ```
 

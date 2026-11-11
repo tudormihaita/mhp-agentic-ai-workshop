@@ -21,7 +21,7 @@ PROVIDERS = ("bedrock", "ollama", "gemini")
 DEFAULT_MODELS = {
     "bedrock": "eu.anthropic.claude-sonnet-5-5",
     "ollama": "qwen3:4b",
-    "gemini": "gemini-2.5-flash",
+    "gemini": "gemini-3.5-flash",
 }
 
 
