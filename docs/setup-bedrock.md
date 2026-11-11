@@ -1,6 +1,7 @@
-# Using Amazon Bedrock (default)
+# Using Amazon Bedrock (alternative)
 
-You'll get a **personal Bedrock API key** from the instructor. You do **not** need an AWS account,
+The workshop runs on DeepSeek by default ([setup](setup-deepseek.md)). Use Bedrock only if the
+instructor provides you a **personal Bedrock API key**. You do **not** need an AWS account,
 the AWS CLI, or any AWS login.
 
 1. Open your `.env` file and set:

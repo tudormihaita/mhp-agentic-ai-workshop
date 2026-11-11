@@ -4,11 +4,12 @@ Hands-on exercises for building LLM-based agents with Google's
 [Agent Development Kit (ADK)](https://adk.dev). Each exercise introduces one concept:
 chat agents, tools and the agent loop, MCP, multi-agent delegation and workflows.
 
-Every exercise works with any of three model providers. You choose one in a single `.env` file:
+Every exercise works with any of four model providers. You choose one in a single `.env` file:
 
 | Provider | What it is | What you need |
 |---|---|---|
-| **Amazon Bedrock** *(default)* | Cloud models, by default Claude Sonnet 5.5 | The personal API key from your instructor |
+| **DeepSeek** *(default)* | DeepSeek V4.1 Flash in the cloud, served by Deploy | A key from your instructor, or your own free one ($1 credit): [guide](docs/setup-deepseek.md) |
+| **Amazon Bedrock** *(alternative)* | Cloud models, by default Claude Sonnet 5.5 | A personal Bedrock key from your instructor: [guide](docs/setup-bedrock.md) |
 | **Ollama** *(optional)* | Open models running on your own laptop | Ollama installed + a model downloaded: [guide](docs/setup-ollama.md) |
 | **Google Gemini** *(optional)* | Google's cloud models | A free Gemini API key: [guide](docs/setup-gemini.md) |
 
@@ -38,7 +39,7 @@ pip install -r requirements.txt
 
 # 4. Create your config file and fill in your key
 cp .env.example .env # Windows: copy .env.example .env
-# open .env and paste your Bedrock API key (see docs/setup-bedrock.md)
+# open .env and paste your DeepSeek (Deploy) API key (see docs/setup-deepseek.md)
 
 # 5. Check everything works
 python scripts/check_setup.py
@@ -75,8 +76,8 @@ With `--reload_agents`, saving `agent.py` is picked up automatically: start a **
 the UI to see the change. After editing `.env`, **restart** `adk web` (Ctrl+C, then run it again).
 
 ### Switching models
-Edit `.env`. Change `MODEL_PROVIDER` (`bedrock` / `ollama` / `gemini`) or the model name for that
-provider (`BEDROCK_MODEL`, `OLLAMA_MODEL`, `GEMINI_MODEL`), then restart. No code changes needed.
+Edit `.env`. Change `MODEL_PROVIDER` (`deepseek` / `bedrock` / `ollama` / `gemini`) or the model name
+for that provider (`DEEPSEEK_MODEL`, `BEDROCK_MODEL`, `OLLAMA_MODEL`, `GEMINI_MODEL`), then restart. No code changes needed.
 
 ---
 
@@ -105,11 +106,12 @@ mhp-agentic-ai-workshop/
 ├── pyproject.toml          ← makes common importable (installed via requirements.txt)
 ├── .env.example            ← copy to .env and fill in (never commit .env)
 ├── common/                ← shared helper, you do not need to edit it
-│   └── models.py           ← get_model(): picks Bedrock / Ollama / Gemini from .env
+│   └── models.py           ← get_model(): picks DeepSeek / Bedrock / Ollama / Gemini from .env
 ├── scripts/
 │   └── check_setup.py      ← verifies Python, packages, .env and a live model call
 ├── docs/
-│   ├── setup-bedrock.md    ← provider guides + troubleshooting
+│   ├── setup-deepseek.md   ← provider guides + troubleshooting
+│   ├── setup-bedrock.md
 │   ├── setup-ollama.md
 │   ├── setup-gemini.md
 │   └── instructor/         ← key generation & cleanup (instructor only)
@@ -132,4 +134,4 @@ mhp-agentic-ai-workshop/
 | `ModuleNotFoundError: common` | venv not active, or you skipped `pip install -r requirements.txt` |
 | `adk: command not found` | venv not active |
 | Exercise missing from the dropdown | Run `adk web exercises` from the **repo root**, not inside a folder |
-| Provider-specific errors | See [Bedrock](docs/setup-bedrock.md) · [Ollama](docs/setup-ollama.md) · [Gemini](docs/setup-gemini.md) |
+| Provider-specific errors | See [DeepSeek](docs/setup-deepseek.md) · [Bedrock](docs/setup-bedrock.md) · [Ollama](docs/setup-ollama.md) · [Gemini](docs/setup-gemini.md) |
