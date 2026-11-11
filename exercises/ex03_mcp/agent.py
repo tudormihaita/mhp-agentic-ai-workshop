@@ -9,7 +9,9 @@ from datetime import date
 from pathlib import Path
 
 from google.adk.agents import Agent
+from google.adk.skills import load_skill_from_dir  # noqa: F401  (used in TODO 3)
 from google.adk.tools.mcp_tool import McpToolset, StdioConnectionParams, StreamableHTTPConnectionParams
+from google.adk.tools.skill_toolset import SkillDiscoveryMode, SkillToolset  # noqa: F401  (used in TODO 3)
 from mcp import StdioServerParameters  # noqa: F401  (used in TODO 2)
 
 from common import get_model
@@ -34,12 +36,26 @@ kiwi_flights = McpToolset(
 trip_server = None
 
 # Another public server, with 10 tools (flights, hotels, car rental, flexible dates, ...).
-# TODO 3: Open the agent in adk web and look at the tools it lists (Info / Events tab). Each tool
-#   definition is sent to the model on EVERY request and costs tokens. We only need
-#   "sk_destinations_anywhere": add tool_filter=[...] like the Kiwi connection above.
+# Each tool definition is sent to the model on EVERY request, even when they are not needed.
 skiplagged = McpToolset(
     connection_params=StreamableHTTPConnectionParams(url="https://mcp.skiplagged.com/mcp", timeout=60),
 )
+
+# TODO 3: Load Skiplagged only when it's needed, with skills (folders in ./skills).
+#   At first the model sees only each skill's name and description. When a request matches, it
+#   calls load_skill: the skill's instructions enter the context, and the tools listed in the
+#   skill's `adk_additional_tools` become available.
+#   a+b) Finish skills/find-destination/SKILL.md (description + the tool it unlocks).
+#   c)   Replace None with:
+#            SkillToolset(
+#                skills=[load_skill_from_dir(SKILLS_DIR / "find-destination"),
+#                        load_skill_from_dir(SKILLS_DIR / "trip-plan-format")],
+#                additional_tools=[skiplagged],              # tools that skills can unlock
+#                discovery_mode=SkillDiscoveryMode.EAGER,    # names + descriptions go in the instruction
+#            )
+#   d)   In the tools list below, replace skiplagged with skills.
+SKILLS_DIR = Path(__file__).with_name("skills")
+skills = None
 
 root_agent = Agent(
     name="trip_planner",
@@ -50,8 +66,6 @@ root_agent = Agent(
         "- Never invent prices, flights, hotels or weather: always get them from your tools.\n"
         "- Flights: use search-flight (live prices from Kiwi.com). Prefer a return search over two "
         "one-way searches. Always show the booking link.\n"
-        "- If the user doesn't know where to go, use sk_destinations_anywhere (works best from big "
-        "airports such as OTP Bucharest). Ask for prices in EUR.\n"
         "- Each tool documents its own date format: follow it exactly.\n"
         "- If a tool returns an error, read the message, fix your call and try again, "
         "or explain the problem to the user.\n"

@@ -87,7 +87,7 @@ for that provider (`DEEPSEEK_MODEL`, `BEDROCK_MODEL`, `OLLAMA_MODEL`, `GEMINI_MO
 |---|---|---|
 | 1 | [`ex01_chat`](exercises/ex01_chat/README.md) | Chat agent: the LLM is a replaceable part |
 | 2 | [`ex02_tools`](exercises/ex02_tools/README.md) | Tools and the agent loop |
-| 3 | [`ex03_mcp`](exercises/ex03_mcp/README.md) | MCP: our own server + live public servers |
+| 3 | [`ex03_mcp`](exercises/ex03_mcp/README.md) | MCP (our own server + live public servers) and skills |
 | 4 | [`ex04_delegation`](exercises/ex04_delegation/README.md) | Delegation: a coordinator and specialists |
 | 5 | [`ex05_workflows`](exercises/ex05_workflows/README.md) | Workflows (classic): sequential, parallel, loop |
 | 6 | [`ex06_graph_workflows`](exercises/ex06_graph_workflows/README.md) | Workflows (graph): nodes, edges, routes |
@@ -106,7 +106,8 @@ mhp-agentic-ai-workshop/
 ├── pyproject.toml          ← makes common importable (installed via requirements.txt)
 ├── .env.example            ← copy to .env and fill in (never commit .env)
 ├── common/                ← shared helper, you do not need to edit it
-│   └── models.py           ← get_model(): picks DeepSeek / Bedrock / Ollama / Gemini from .env
+│   ├── models.py           ← get_model(): picks DeepSeek / Bedrock / Ollama / Gemini from .env
+│   └── travel.py           ← finished travel tools, used by Exercises 4-6
 ├── scripts/
 │   └── check_setup.py      ← verifies Python, packages, .env and a live model call
 ├── docs/
