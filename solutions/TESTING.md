@@ -106,7 +106,6 @@ and prices change, and Skiplagged's results from CLJ changed during development 
 ## Known open points
 - [ ] Update the dates in the exercise READMEs shortly before the workshop.
 - [ ] Commit `scripts/smoke_test.py`: the ex04 README tells students to use it.
-- [ ] `solutions/ex03_mcp/trip_server.py` must be in the repo students clone: `exercises/ex04_delegation` imports it.
 - [ ] Deploy (Hive) allowed ~5 requests at once in testing; per key or per account is unknown. Ex05/06 send 3 at once per student. Test with 2-3 keys in parallel before the session.
 - [ ] Ex01 README still says "change `BEDROCK_MODEL`" (step 3): DeepSeek is now the default.
 - [ ] Bedrock with Claude Sonnet 5.5: not tested yet.
