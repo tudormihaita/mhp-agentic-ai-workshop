@@ -22,7 +22,7 @@ DEFAULT_MODELS = {
     "deepseek": "deepseek-ai/deepseek-v4.1-flash-1017",
     "bedrock": "eu.anthropic.claude-sonnet-5-5",
     "ollama": "qwen3:4b",
-    "gemini": "gemini-2.5-flash",
+    "gemini": "gemini-3.5-flash",
 }
 
 # DeepSeek models served by Deploy (Hive's platform, portal.deploy.com): an OpenAI-compatible API.
