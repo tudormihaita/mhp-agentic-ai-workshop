@@ -6,10 +6,13 @@ and delegates; each **specialist** sees only its own tools and instructions:
 
 ```
                         ┌─ flights_agent       Kiwi (MCP, remote)
-trip_coordinator ───────┼─ stays_agent         our trip_server.py (MCP), only search_hotels
-  convert_currency      ├─ weather_agent       our trip_server.py (MCP), only get_weather_forecast
+trip_coordinator ───────┼─ stays_agent         our trip server (MCP), only search_hotels
+  convert_currency      ├─ weather_agent       our trip server (MCP), only get_weather_forecast
   add_to_trip, get_trip └─ destinations_agent  Skiplagged (MCP, remote)
 ```
+
+The trip planning MCP server is the finished one from Exercise 3 (`common/trip_server.py`), so this exercise works
+even if your Exercise 3 isn't complete.
 
 Splitting is **not** automatically better: more agents means more model calls and information lost
 between them. The question of this exercise is *when* it pays off.

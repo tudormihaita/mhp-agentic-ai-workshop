@@ -7,7 +7,6 @@ Run it (from the repo root):
 
 import sys
 from datetime import date
-from pathlib import Path
 
 from google.adk.agents import Agent
 from google.adk.tools.mcp_tool import McpToolset, StdioConnectionParams, StreamableHTTPConnectionParams
@@ -21,16 +20,15 @@ from common.travel import add_to_trip, get_trip, trim_flight_results
 #   "single_turn" -> the specialist does one job and returns the result; the coordinator stays in charge
 # TODO 3: after trying the conversation in the README with "chat", switch to "single_turn" and repeat it.
 MODE = "chat"
-
 TODAY = date.today().isoformat()
-TRIP_SERVER = Path(__file__).resolve().parents[2] / "solutions" / "ex03_mcp" / "trip_server.py"  # finished ex03 server
 
 
 def trip_server(*tool_names: str) -> McpToolset:
     """Our MCP server from Exercise 3, showing only the given tools to the agent that uses it."""
     return McpToolset(
         connection_params=StdioConnectionParams(
-            server_params=StdioServerParameters(command=sys.executable, args=[str(TRIP_SERVER)]), timeout=30
+            server_params=StdioServerParameters(command=sys.executable, args=["-m", "common.trip_server"]),
+            timeout=30,
         ),
         tool_filter=list(tool_names),
     )

@@ -107,7 +107,8 @@ mhp-agentic-ai-workshop/
 ├── .env.example            ← copy to .env and fill in (never commit .env)
 ├── common/                ← shared helper, you do not need to edit it
 │   ├── models.py           ← get_model(): picks DeepSeek / Bedrock / Ollama / Gemini from .env
-│   └── travel.py           ← finished travel tools, used by Exercises 4-6
+│   ├── travel.py           ← finished travel tools, used by Exercises 4-6
+│   └── trip_server.py      ← the finished Exercise 3 MCP server, used by Exercise 4
 ├── scripts/
 │   └── check_setup.py      ← verifies Python, packages, .env and a live model call
 ├── docs/
