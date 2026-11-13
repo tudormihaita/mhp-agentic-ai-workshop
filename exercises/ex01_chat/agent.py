@@ -18,8 +18,10 @@ print(f"[ex01] Using model: {describe_model()}")
 root_agent = Agent(
     name="chat_agent",
     model=get_model(),
+    # description: a one-line summary for visible to other agents.
+    # It explains the agent's role and what it can do.
     description="A simple chat assistant without tools.",
-    # TODO 1: Write the agent's instruction (its "system prompt").
+    # TODO 1: Write the agent's instruction (its "system prompt"): how THIS agent behaves.
     #   - Who is it? (e.g. a friendly assistant for travel planning)
     #   - How should it answer? (length, tone, language, format)
     #   - What should it do when it doesn't know something?

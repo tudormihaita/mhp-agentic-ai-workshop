@@ -4,6 +4,8 @@ Hands-on exercises for building LLM-based agents with Google's
 [Agent Development Kit (ADK)](https://adk.dev). Each exercise introduces one concept:
 chat agents, tools and the agent loop, MCP, multi-agent delegation and workflows.
 
+The theme is **trip planning**: the agent helps you plan a weekend trip with flights, hotels and weather suggestions, within a budget.
+
 Every exercise works with any of four model providers. You choose one in a single `.env` file:
 
 | Provider | What it is | What you need |
