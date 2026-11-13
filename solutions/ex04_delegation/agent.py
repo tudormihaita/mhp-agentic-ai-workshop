@@ -17,7 +17,7 @@ from common.travel import add_to_trip, get_trip, trim_flight_results
 # How the coordinator uses its specialists:
 #   "chat"        -> transfer: the specialist takes over the conversation (ADK's default)
 #   "single_turn" -> the specialist does one job and returns the result; the coordinator stays in charge
-MODE = "single_turn"
+MODE = "chat"
 
 TODAY = date.today().isoformat()
 TRIP_SERVER = Path(__file__).resolve().parents[1] / "ex03_mcp" / "trip_server.py"  # the finished ex03 server

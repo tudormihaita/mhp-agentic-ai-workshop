@@ -18,6 +18,7 @@ Your code fixes the order; agents pass data to each other ONLY through session s
 from datetime import date
 
 from google.adk.agents import Agent, LoopAgent, ParallelAgent, SequentialAgent
+from google.adk.agents.callback_context import CallbackContext
 from google.adk.tools import exit_loop
 from pydantic import BaseModel, Field
 
@@ -35,7 +36,7 @@ TODAY = date.today().isoformat()
 class TripRequest(BaseModel):
     origin: str = Field(description="IATA code of the departure airport, e.g. CLJ. CLJ if not given.")
     destination: str = Field(description="IATA code of the destination airport, e.g. LIS.")
-    city: str = Field(description="Destination city name in English, e.g. Lisbon.")
+    city: str = Field(description="The city the user travels TO (not from), in English, e.g. Lisbon.")
     depart: str = Field(description="Departure date, YYYY-MM-DD.")
     return_date: str = Field(description="Return date, YYYY-MM-DD.")
     budget_amount: float = Field(description="The user's total budget. 0 if not given.")
@@ -160,8 +161,15 @@ presenter = Agent(
     ),
 )
 
+def start_fresh(callback_context: CallbackContext) -> None:
+    """Runs before the pipeline. State lives for the whole session: forget the last request's review,
+    so the planner's first round doesn't follow advice about a different budget."""
+    callback_context.state["review"] = ""
+
+
 root_agent = SequentialAgent(
     name="trip_pipeline",
     description="Plans a weekend trip in fixed steps: understand, research, plan within budget, present.",
     sub_agents=[request_parser, research, budget_loop, presenter],
+    before_agent_callback=start_fresh,
 )

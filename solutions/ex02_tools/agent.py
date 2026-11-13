@@ -19,8 +19,6 @@ root_agent = Agent(
         "or explain the problem to the user.\n"
         "- Prices are in EUR. If the user gives a budget in another currency, convert it first.\n"
         "- Only add items to the trip after the user picks them.\n"
-        "- Think out loud: before each tool call, write one short line starting with 'Thinking:' "
-        "that says what you need to find out and which tool you will use.\n"
         "- Current trip total: {trip_total_eur?} EUR."
     ),
     tools=[search_flights, search_hotels, get_weather_forecast, convert_currency, add_to_trip, get_trip],
