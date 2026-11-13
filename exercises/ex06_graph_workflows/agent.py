@@ -21,6 +21,7 @@ The same pipeline as Exercise 5, as a graph of nodes and edges. Two kinds of nod
                                presenter
 """
 
+import re
 from datetime import date
 
 from google.adk import Event, Workflow
@@ -40,7 +41,7 @@ MAX_ROUNDS = 3  # a graph has no built-in loop limit: we add our own
 class TripRequest(BaseModel):
     origin: str = Field(description="Only the 3-letter IATA code of the departure airport, e.g. CLJ. CLJ if not given.")
     destination: str = Field(description="Only the 3-letter IATA code of the destination airport, e.g. LIS.")
-    city: str = Field(description="Destination city name in English, e.g. Lisbon.")
+    city: str = Field(description="The city the user travels TO (not from), in English, e.g. Lisbon.")
     depart: str = Field(description="Departure date, YYYY-MM-DD.")
     return_date: str = Field(description="Return date, YYYY-MM-DD.")
     budget_amount: float = Field(description="The user's total budget. 0 if not given.")
@@ -83,9 +84,17 @@ def _airport_code(value: str) -> str:
     return value
 
 
+def _iso_date(value: str) -> str:
+    """Forgive extra text around the date: "2026-11-20 (Friday)" -> "2026-11-20"."""
+    match = re.search(r"\d{4}-\d{2}-\d{2}", value)
+    return match.group() if match else value
+
+
 def validate_request(request: TripRequest) -> Event:
     """Parameters are filled from session state by name: here state["request"]."""
     request.origin, request.destination = _airport_code(request.origin), _airport_code(request.destination)
+    request.city = AIRPORTS.get(request.destination, request.city)  # trust the code, not the model
+    request.depart, request.return_date = _iso_date(request.depart), _iso_date(request.return_date)
     problems = []
     if request.origin not in AIRPORTS or request.destination not in AIRPORTS:
         problems.append(f"I only know these airports: {', '.join(AIRPORTS)}.")
@@ -107,7 +116,9 @@ def validate_request(request: TripRequest) -> Event:
 
     if problems:
         return Event(route="invalid", state={"problems": problems})
-    return Event(route="ok", state={"request": request.model_dump()})  # save the cleaned-up request
+    # Save the cleaned-up request. State lives for the whole session, so also reset what the
+    # previous request left behind: the loop counter and the last budget check.
+    return Event(route="ok", state={"request": request.model_dump(), "rounds": 0, "budget_check": ""})
 
 
 def explain_problem(problems: list[str]) -> Event:
