@@ -40,3 +40,7 @@ venv/
 .vscode/
 .idea/
 .DS_Store
+
+# Instructor-only notes: kept locally, never pushed
+docs/instructor/
+solutions/TESTING.md
